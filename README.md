@@ -166,11 +166,3 @@ Para executar com relatório de cobertura:
 ```bash
 ./mvnw test jacoco:report
 ```
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT.
-
-## 👤 Autor
-
-Victor - [GitHub](https://github.com/Ivictors)
