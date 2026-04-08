@@ -1,0 +1,5 @@
+MYSQL_DATABASE=database
+MYSQL_USER=mysql-user
+MYSQL_PASSWORD=mysql-password
+MYSQL_ROOT_PASSWORD=rootpassword
+DB_PORT_EXTERNAL=

@@ -1,165 +1,176 @@
-# User-MS
+# Users App - Sistema de Gestão de Usuários
 
-Microsserviço de gerenciamento de usuários para plataforma de delivery de comida, desenvolvido com Spring Boot e arquitetura orientada a eventos.
+Aplicação monolítica para gestão de usuários, desenvolvida com Spring Boot, oferecendo operações CRUD completas, autenticação segura via JWT com criptografia RSA, e controle de acesso baseado em roles.
 
-## Descrição
-
-O **User-MS** é um componente de uma arquitetura baseada em microsserviços para uma plataforma de delivery de comida. O sistema foi projetado de forma robusta e altamente desacoplada, utilizando Event-Driven Architecture para garantir escalabilidade e comunicação assíncrona entre serviços.
-
-A segurança e o controle de acesso são implementados seguindo as melhores práticas de desenvolvimento de software, utilizando JWT (JSON Web Tokens) com criptografia RSA para autenticação e autorização baseada em roles.
-
-## Tecnologias
+## 🚀 Tecnologias
 
 - **Java 21**
-- **Spring Boot 4.0.4**
-- **Spring Security** - Autenticação e autorização
+- **Spring Boot 3.4.2**
+- **Spring Security** - Autenticação e autorização com OAuth2 Resource Server
 - **Spring Data JPA** - Persistência de dados
-- **Spring AMQP** - Comunicação assíncrona com RabbitMQ
 - **MySQL 8.0** - Banco de dados relacional
-- **OAuth2 Resource Server** - Gerenciamento de tokens JWT
 - **SpringDoc OpenAPI** - Documentação automática da API
 - **Bean Validation** - Validação de dados
+- **BCrypt** - Criptografia de senhas
 
-## Arquitetura
+## 📐 Arquitetura
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                   User-MS                           │
+│                    Users App                         │
 ├─────────────────────────────────────────────────────┤
-│  Controllers (REST API)                             │
-│  ├── UserController   - CRUD de usuários            │
-│  └── LoginController  - Autenticação                │
+│              Controllers (REST API)                  │
+│  ├── UserController - CRUD de usuários              │
+│  └── LoginController - Autenticação                 │
 ├─────────────────────────────────────────────────────┤
-│  Services                                          │
-│  ├── UserService      - Lógica de negócio usuários  │
-│  └── LoginService     - Lógica de autenticação      │
+│                    Services                          │
+│  ├── UserService - Lógica de negócio de usuários    │
+│  └── LoginService - Lógica de autenticação          │
 ├─────────────────────────────────────────────────────┤
-│  Repository (Spring Data JPA)                       │
+│            Repository (Spring Data JPA)              │
 │  ├── UserRepository                                  │
 │  └── RoleRepository                                  │
 ├─────────────────────────────────────────────────────┤
-│  Models & DTOs                                      │
+│                 Models & DTOs                        │
 │  ├── UserModel, Role                                │
 │  └── UserRequestDto, UserResponseDto, LoginDto      │
 └─────────────────────────────────────────────────────┘
 ```
 
-## Funcionalidades
+## ⚙️ Funcionalidades
 
 ### Gestão de Usuários
-- Cadastro de novos usuários
-- Listagem de usuários (admin)
-- Busca de usuário por ID
-- Atualização de dados do usuário
-- Exclusão lógica de usuário (soft delete)
+- ✅ Cadastro de novos usuários
+- ✅ Listagem de usuários (admin)
+- ✅ Busca de usuário por ID
+- ✅ Atualização de dados do usuário
+- ✅ Exclusão lógica de usuário (soft delete)
 
-### Autenticação
-- Login com geração de token JWT
-- Validação de credenciais
-- Controle de acesso baseado em roles (BASIC, ADMIN)
+### Autenticação e Segurança
+- ✅ Login com geração de token JWT
+- ✅ Validação de credenciais
+- ✅ Controle de acesso baseado em roles (BASIC, ADMIN)
+- ✅ Criptografia RSA para tokens JWT
+- ✅ Senhas armazenadas com BCrypt
 
-## Endpoints da API
+## 📡 Endpoints da API
 
-| Método | Endpoint | Descrição | Autorização |
-|--------|----------|-----------|-------------|
-| POST | `/users/save` | Cria novo usuário | Público |
-| GET | `/users/show-all` | Lista todos usuários | ADMIN |
-| GET | `/users/{id}` | Busca usuário por ID | Autenticado |
-| PUT | `/users/{id}` | Atualiza usuário | Autenticado |
-| DELETE | `/users/{id}` | Remove usuário | Autenticado |
-| POST | `/login` | Autentica usuário | Público |
+| Método | Endpoint          | Descrição                    | Autorização |
+|--------|-------------------|------------------------------|-------------|
+| POST   | `/users/save`     | Cria novo usuário            | Público     |
+| GET    | `/users/show-all` | Lista todos usuários         | ADMIN       |
+| GET    | `/users/{id}`     | Busca usuário por ID         | Autenticado |
+| PUT    | `/users/{id}`     | Atualiza usuário             | Autenticado |
+| DELETE | `/users/{id}`     | Remove usuário (soft delete) | Autenticado |
+| POST   | `/login`          | Autentica usuário            | Público     |
 
-## Documentação
+## 📖 Documentação
 
 A documentação da API está disponível via Swagger UI:
 - **Swagger UI**: `http://localhost:8081/swagger-ui.html`
 - **OpenAPI JSON**: `http://localhost:8081/v3/api-docs`
 
-## Pré-requisitos
+## 🛠️ Pré-requisitos
 
 - Java 21+
 - Maven 3.9+
 - MySQL 8.0+
 - Docker e Docker Compose (opcional)
 
-## Configuração
+## ⚙️ Configuração
 
-1. Clone o repositório:
+### 1. Clone o repositório
 ```bash
-git clone https://github.com/Ivictors/user-ms.git
-cd user-ms
+git clone https://github.com/Ivictor/users-app.git
+cd users-app
 ```
 
-2. Configure as variáveis de ambiente:
+### 2. Configure as variáveis de ambiente
 ```bash
 cp env-example .env
 ```
 
-3. Configure o arquivo de propriedades:
+### 3. Configure o arquivo de propriedades
 ```bash
-cp src/main/resources/application.example src/main/resources/application.yml
+cp src/main/resources/application.example src/main/resources/application-dev.yml
 ```
 
-4. Configure as chaves JWT RSA:
-   - Gere as chaves privada e pública
-   - Coloque os arquivos `private-key.pem` e `public-key.pem` no diretório de resources/keys
+### 4. Configure as chaves JWT RSA
+Gere as chaves privada e pública RSA e coloque os arquivos `private_key.pem` e `public_key.pem` em `src/main/resources/`.
 
-5. Inicie o banco de dados com Docker:
+### 5. Inicie o banco de dados com Docker
 ```bash
 docker-compose up -d
 ```
 
-6. Execute a aplicação:
+### 6. Execute a aplicação
 ```bash
 ./mvnw spring-boot:run
 ```
 
-## Variáveis de Ambiente
+A aplicação estará disponível em: `http://localhost:8081`
 
-| Variável | Descrição |
-|----------|-----------|
-| `MYSQL_DATABASE` | Nome do banco de dados |
-| `MYSQL_USER` | Usuário do MySQL |
-| `MYSQL_PASSWORD` | Senha do MySQL |
-| `MYSQL_ROOT_PASSWORD` | Senha root do MySQL |
-| `DB_PORT_EXTERNAL` | Porta externa do MySQL |
+## 🔐 Variáveis de Ambiente
 
-## Estrutura do Projeto
+| Variável              | Descrição                    |
+|-----------------------|------------------------------|
+| `MYSQL_DATABASE`      | Nome do banco de dados       |
+| `MYSQL_USER`          | Usuário do MySQL             |
+| `MYSQL_PASSWORD`      | Senha do MySQL               |
+| `MYSQL_ROOT_PASSWORD` | Senha root do MySQL          |
+| `DB_PORT_EXTERNAL`    | Porta externa do MySQL       |
+
+## 📁 Estrutura do Projeto
 
 ```
-user-ms/
+users-app/
 ├── src/
 │   ├── main/
-│   │   ├── java/com/victor/userms/
-│   │   │   ├── config/          # Configurações (Security, OpenAPI)
-│   │   │   ├── controller/      # Controllers REST
-│   │   │   ├── dto/             # Data Transfer Objects
-│   │   │   ├── enums/           # Enumerações
-│   │   │   ├── exceptions/      # Exceções customizadas
-│   │   │   ├── handler/         # Global Exception Handler
-│   │   │   ├── model/           # Entidades JPA
-│   │   │   ├── repository/      # Repositórios
-│   │   │   └── service/         # Lógica de negócio
+│   │   ├── java/com/victor/usersapp/
+│   │   │   ├── config/        # Configurações (Security, OpenAPI)
+│   │   │   ├── controller/    # Controllers REST
+│   │   │   ├── dto/           # Data Transfer Objects
+│   │   │   ├── enums/         # Enumerações
+│   │   │   ├── exceptions/    # Exceções customizadas
+│   │   │   ├── handler/       # Global Exception Handler
+│   │   │   ├── model/         # Entidades JPA
+│   │   │   ├── repository/    # Repositórios
+│   │   │   └── service/       # Lógica de negócio
 │   │   └── resources/
-│   │       └── application.example
-│   └── test/                    # Testes unitários
+│   │       ├── application-dev.yml
+│   │       ├── private_key.pem
+│   │       └── public_key.pem
+│   └── test/                  # Testes unitários
 ├── docker-compose.yml
 ├── env-example
 ├── pom.xml
 └── README.md
 ```
 
-## Segurança
+## 🔒 Segurança
 
-- Senhas armazenadas com BCrypt
-- Autenticação via JWT com RSA
-- Controle de acesso por roles
-- Validação de entrada de dados
-- Soft delete para preservar integridade de dados
+- **Senhas**: Armazenadas com BCrypt (hash unidirecional)
+- **Autenticação**: JWT com criptografia RSA (chave pública/privada)
+- **Autorização**: Controle de acesso baseado em roles (BASIC, ADMIN)
+- **Validação**: Validação de entrada de dados com Bean Validation
+- **Soft Delete**: Exclusão lógica para preservar integridade de dados
 
-## Testes
+## 🧪 Testes
 
-Execute os testes com:
+Execute os testes unitários com:
 ```bash
 ./mvnw test
 ```
+
+Para executar com relatório de cobertura:
+```bash
+./mvnw test jacoco:report
+```
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT.
+
+## 👤 Autor
+
+Victor - [GitHub](https://github.com/Ivictors)
